@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Welcome from './Welcome.js';
 import './App.css';
 
 class App extends Component {
@@ -6,7 +7,14 @@ class App extends Component {
     const names = ["pedro", "juan", "daniel"];
     return (
       <div>
-        <h1>Hola Mundo</h1>
+        <div>
+          <Welcome name="Pedro" />
+          <Welcome name="Daniel" />
+        </div>
+        {names.map(name =>
+          <Welcome name={name} />
+        )}
+        <p>Hola mundo normal</p>
         <p>Hola</p>
         <ul>
           {names.map(name =>
