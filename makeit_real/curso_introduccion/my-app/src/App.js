@@ -7,7 +7,8 @@ class App extends Component {
     super();
 
     this.state = {
-      title: "Hola mundo desde el estado"
+      title: "Hola mundo desde el estado",
+      tasks: ["Tarea 1", "Tarea 2"]
     }
   }
 
@@ -31,6 +32,12 @@ class App extends Component {
         </ul>
         <h2>{this.state.title}</h2>
         <button onClick={this.changeTitle.bind(this)}>Cambie el titulo</button>
+        <ul>
+          {this.state.tasks.map(task =>
+            <li>{task}</li>
+          )}
+        </ul>
+        <button onClick={this.addTask.bind(this)}>Agregue un elemento</button>
       </div>
     );
   }
@@ -39,6 +46,12 @@ class App extends Component {
     this.setState({
       title: "Nuevo titulo"
     });
+  }
+
+  addTask(){
+    this.setState({
+      tasks: this.state.tasks.concat("Nuevo elemento")
+    })
   }
 }
 
