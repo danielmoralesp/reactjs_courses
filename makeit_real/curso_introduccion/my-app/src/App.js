@@ -3,6 +3,14 @@ import Welcome from './Welcome.js';
 import './App.css';
 
 class App extends Component {
+  constructor(){
+    super();
+
+    this.state = {
+      title: "Hola mundo desde el estado"
+    }
+  }
+
   render() {
     const names = ["pedro", "juan", "daniel"];
     return (
@@ -21,8 +29,16 @@ class App extends Component {
             <li>{name}</li>
           )}
         </ul>
+        <h2>{this.state.title}</h2>
+        <button onClick={this.changeTitle.bind(this)}>Cambie el titulo</button>
       </div>
     );
+  }
+
+  changeTitle(){
+    this.setState({
+      title: "Nuevo titulo"
+    });
   }
 }
 
