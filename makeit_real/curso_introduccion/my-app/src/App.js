@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Welcome from './Welcome.js';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
@@ -11,6 +12,14 @@ class App extends Component {
       tasks: ["Tarea 1", "Tarea 2"],
       name: ""
     }
+
+    axios.get("http://localhost:3001/names")
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   render() {
@@ -45,6 +54,7 @@ class App extends Component {
 
         <input type="text" value={this.state.name} onChange={this.updateName.bind(this)}/>
         <button onClick={this.sayHi.bind(this)}>Say Hi!</button>
+
       </div>
     );
   }
