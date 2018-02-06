@@ -8,7 +8,8 @@ class App extends Component {
 
     this.state = {
       title: "Hola mundo desde el estado",
-      tasks: ["Tarea 1", "Tarea 2"]
+      tasks: ["Tarea 1", "Tarea 2"],
+      name: ""
     }
   }
 
@@ -39,6 +40,11 @@ class App extends Component {
         </ul>
         <button onClick={this.addTask.bind(this)}>Agregue un elemento</button>
         <button onClick={this.updateTask.bind(this)}>Modificar tarea 2</button>
+
+        <h1>Formulario</h1>
+
+        <input type="text" value={this.state.name} onChange={this.updateName.bind(this)}/>
+        <button onClick={this.sayHi.bind(this)}>Say Hi!</button>
       </div>
     );
   }
@@ -64,7 +70,17 @@ class App extends Component {
       tasks: this.state.tasks.map((task, i) =>
         i == index ? "Actualizado" : task
       )
-    })
+    });
+  }
+
+  sayHi(){
+    alert(`Hola ${this.state.name}`);
+  }
+
+  updateName(event){
+    this.setState({
+      name: event.target.value
+    });
   }
 }
 
