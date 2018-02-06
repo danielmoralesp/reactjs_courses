@@ -1,0 +1,12 @@
+{
+  "name": "fromScratch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Daniel Morales <danielmorales1202@gmail.com> (http://danielmorales.co)",
+  "license": "ISC"
+}
