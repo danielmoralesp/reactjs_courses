@@ -38,6 +38,7 @@ class App extends Component {
           )}
         </ul>
         <button onClick={this.addTask.bind(this)}>Agregue un elemento</button>
+        <button onClick={this.updateTask.bind(this)}>Modificar tarea 2</button>
       </div>
     );
   }
@@ -51,6 +52,18 @@ class App extends Component {
   addTask(){
     this.setState({
       tasks: this.state.tasks.concat("Nuevo elemento")
+    })
+  }
+
+  updateTask(){
+    const index = this.state.tasks.findIndex(task =>
+      task == "Tarea 2"
+    );
+
+    this.setState({
+      tasks: this.state.tasks.map((task, i) =>
+        i == index ? "Actualizado" : task
+      )
     })
   }
 }
