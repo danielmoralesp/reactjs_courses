@@ -1,11 +1,13 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { hydrate } from 'react-dom';
 import Home from '../pages/containers/home';
+// import Playlist from './src/playlist/components/playlist';
 import data from '../api.json';
+// console.log('Hola mundo!' )
 
-const home = document.getElementById('home-container')
+const homeContainer = document.getElementById('home-container')
 
-render(
-  <Home data={data} />,
-  home
-);
+// ReactDOM.render(que voy a renderizar, donde lo haré);
+// const holaMundo = <h1>hola Estudiante!</h1>;
+hydrate( <Home data={data} />, homeContainer);
+
