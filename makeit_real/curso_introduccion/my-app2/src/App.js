@@ -3,19 +3,27 @@ import Welcome from './Welcome'
 import './App.css'
 
 class App extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      title: 'Hola Mundo desde estado'
+    }
+  }
+
   render() {
-    const names = ['daniel', 'maria clara', 'catalina']
     return (
       <div>
-        <h1>Hola mundo</h1>
-        <Welcome name="felipe" />
-        <ul>
-          {names.map(name => {
-            return <li>{name}</li>
-          })}
-        </ul>
+        <h1>{this.state.title}</h1>
+        <button onClick={this.changeTitle.bind(this)}>Cambie el titulo</button>
       </div>
     )
+  }
+
+  changeTitle() {
+    this.setState({
+      title: 'nuevo titulo'
+    })
   }
 }
 
