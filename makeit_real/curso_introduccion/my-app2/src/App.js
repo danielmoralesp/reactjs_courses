@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Welcome from './Welcome'
 import './App.css'
 
 class App extends Component {
@@ -7,6 +8,7 @@ class App extends Component {
     return (
       <div>
         <h1>Hola mundo</h1>
+        <Welcome name="felipe" />
         <ul>
           {names.map(name => {
             return <li>{name}</li>
