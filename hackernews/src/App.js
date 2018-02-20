@@ -32,7 +32,7 @@ class App extends Component {
     // constructor. De lo contrario, al acceder a this.props en su constructor, no estarían
     // definidos
     this.state = {
-      list: list
+      list
     }
   }
 
