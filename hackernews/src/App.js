@@ -67,20 +67,17 @@ class App extends Component {
   }
 }
 
-class Search extends Component {
-  render() {
-    const helloWorld = 'Welcome to the road to learn React'
-    const { value, onChange, children } = this.props
+const Search = ({ value, onChange, children }) => {
+  const helloWorld = 'Welcome to the road to learn React'
 
-    return (
-      <div>
-        <h2>{helloWorld}</h2>
-        <form>
-          {children} <input type="text" value={value} onChange={onChange} />
-        </form>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <h2>{helloWorld}</h2>
+      <form>
+        {children} <input type="text" value={value} onChange={onChange} />
+      </form>
+    </div>
+  )
 }
 
 class Table extends Component {
