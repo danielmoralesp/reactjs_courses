@@ -21,6 +21,9 @@ const list = [
   }
 ]
 
+const isSearched = searchTerm => item =>
+  item.title.toLowerCase().includes(searchTerm.toLowerCase())
+
 class App extends Component {
   constructor(props) {
     // Al tener un constructor en su componente de clase ES6, es obligatorio llamar a super();
@@ -32,10 +35,16 @@ class App extends Component {
     // constructor. De lo contrario, al acceder a this.props en su constructor, no estarían
     // definidos
     this.state = {
-      list
+      list,
+      searchTerm: ''
     }
 
+    this.onSearchChange = this.onSearchChange.bind(this)
     this.onDismiss = this.onDismiss.bind(this)
+  }
+
+  onSearchChange(event) {
+    this.setState({ searchTerm: event.target.value })
   }
 
   onDismiss(id) {
@@ -49,7 +58,10 @@ class App extends Component {
     return (
       <div className="App">
         <h2>{helloWorld}</h2>
-        {this.state.list.map(item => (
+        <form>
+          <input type="text" onChange={this.onSearchChange} />
+        </form>
+        {this.state.list.filter(isSearched(this.state.searchTerm)).map(item => (
           <div key={item.objectID}>
             <span>
               <a href={item.url}>{item.title}</a>
