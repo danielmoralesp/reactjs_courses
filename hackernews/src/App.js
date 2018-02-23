@@ -8,9 +8,6 @@ const PATH_SEARCH = '/search'
 const PARAM_SEARCH = 'query='
 const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`
 
-const isSearched = searchTerm => item =>
-  item.title.toLowerCase().includes(searchTerm.toLowerCase())
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -25,6 +22,7 @@ class App extends Component {
     this.setSearchTopStories = this.setSearchTopStories.bind(this)
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this)
     this.onSearchChange = this.onSearchChange.bind(this)
+    this.onSearchSubmit = this.onSearchSubmit.bind(this)
     this.onDismiss = this.onDismiss.bind(this)
   }
 
@@ -52,6 +50,13 @@ class App extends Component {
     this.setState({ searchTerm: event.target.value })
   }
 
+  // 6- server side rendering para buscar en la API de hacker news
+  onSearchSubmit(event) {
+    const { searchTerm } = this.state
+    this.fetchSearchTopStories(searchTerm)
+    event.preventDefault()
+  }
+
   onDismiss(id) {
     const isNotId = item => item.objectID !== id
     const updatedHits = this.state.result.hits.filter(isNotId)
@@ -66,30 +71,29 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
-          <Search value={searchTerm} onChange={this.onSearchChange}>
+          <Search
+            value={searchTerm}
+            onChange={this.onSearchChange}
+            onSubmit={this.onSearchSubmit}
+          >
             Search
           </Search>
         </div>
-        {result && (
-          <Table
-            list={result.hits}
-            pattern={searchTerm}
-            onDismiss={this.onDismiss}
-          />
-        )}
+        {result && <Table list={result.hits} onDismiss={this.onDismiss} />}
       </div>
     )
   }
 }
 
-const Search = ({ value, onChange, children }) => {
+const Search = ({ value, onChange, onSubmit, children }) => {
   const helloWorld = 'Welcome to the road to learn React'
 
   return (
     <div>
       <h2>{helloWorld}</h2>
-      <form>
-        {children} <input type="text" value={value} onChange={onChange} />
+      <form onSubmit={onSubmit}>
+        <input type="text" value={value} onChange={onChange} />
+        <button type="submit">{children}</button>
       </form>
     </div>
   )
@@ -97,7 +101,7 @@ const Search = ({ value, onChange, children }) => {
 
 const Table = ({ list, pattern, onDismiss }) => (
   <div className="table">
-    {list.filter(isSearched(pattern)).map(item => (
+    {list.map(item => (
       <div key={item.objectID} className="table-row">
         <span style={{ width: '40%' }}>
           <a href={item.url}>{item.title}</a>
