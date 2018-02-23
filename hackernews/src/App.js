@@ -1,46 +1,51 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './App.css'
 
-const list = [
-  {
-    title: 'React',
-    url: 'https://facebook.github.io/react/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectID: 0
-  },
-  {
-    title: 'Redux',
-    url: 'https://github.com/reactjs/redux',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 5,
-    objectID: 1
-  }
-]
+const DEFAULT_QUERY = 'redux'
+
+const PATH_BASE = 'https://hn.algolia.com/api/v1'
+const PATH_SEARCH = '/search'
+const PARAM_SEARCH = 'query='
+const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`
 
 const isSearched = searchTerm => item =>
   item.title.toLowerCase().includes(searchTerm.toLowerCase())
 
 class App extends Component {
   constructor(props) {
-    // Al tener un constructor en su componente de clase ES6, es obligatorio llamar a super();
-    // porque el componente de la aplicación es una subclase de componente. Por lo tanto,
-    // el Componente Extiende en su declaración del componente de App
     super(props)
 
-    // Establece this.props en tu constructor en caso de que quieras acceder a ellos en el
-    // constructor. De lo contrario, al acceder a this.props en su constructor, no estarían
-    // definidos
+    // 1- Estado inicial, nulo para result, y searchTerm con DEFAULT_QUERY const
     this.state = {
-      list,
-      searchTerm: ''
+      result: null,
+      searchTerm: DEFAULT_QUERY
     }
 
+    // 2- Bindeo los metodos/funciones
+    this.setSearchTopStories = this.setSearchTopStories.bind(this)
+    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this)
     this.onSearchChange = this.onSearchChange.bind(this)
     this.onDismiss = this.onDismiss.bind(this)
+  }
+
+  // 3 - Metodo set, para setear el resultado de la busqueda, con setState
+  setSearchTopStories(result) {
+    this.setState({ result })
+  }
+
+  // 4- Methodo fecth/get con el que traigo los resultados en json de la busqueda nativa
+  fetchSearchTopStories(searchTerm) {
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+      .then(response => response.json())
+      .then(result => this.setSearchTopStories(result))
+      .catch(e => e)
+  }
+
+  // 5- metodo que se ejecuta despues de montado el componente, el searchTerm
+  // tiene un estado, y se le pasa al metodo fetch/get
+  componentDidMount() {
+    const { searchTerm } = this.state
+    this.fetchSearchTopStories(searchTerm)
   }
 
   onSearchChange(event) {
@@ -49,12 +54,14 @@ class App extends Component {
 
   onDismiss(id) {
     const isNotId = item => item.objectID !== id
-    const updatedList = this.state.list.filter(isNotId)
-    this.setState({ list: updatedList })
+    const updatedHits = this.state.result.hits.filter(isNotId)
+    this.setState({
+      result: { ...this.state.result, hits: updatedHits }
+    })
   }
 
   render() {
-    const { searchTerm, list } = this.state
+    const { searchTerm, result } = this.state
 
     return (
       <div className="page">
@@ -63,7 +70,13 @@ class App extends Component {
             Search
           </Search>
         </div>
-        <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} />
+        {result && (
+          <Table
+            list={result.hits}
+            pattern={searchTerm}
+            onDismiss={this.onDismiss}
+          />
+        )}
       </div>
     )
   }
