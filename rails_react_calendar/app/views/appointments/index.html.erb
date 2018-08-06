@@ -4,18 +4,19 @@
 
 <h3>Make a new appointment</h3><br>
 
-<%= form_for @appointment do |f| %>
-  <%= f.text_field :title %>
-  <%= f.text_field :appt_time %>
-  <%= f.submit 'Make new appointment' %>
-<% end %>
+<%= react_component 'Appointments', appointments: @appointments %>
 
-<br>
+
+<%#= form_for @appointment do |f| %>
+  <%#= f.text_field :title %>
+  <%#= f.text_field :appt_time %>
+  <%#= f.submit 'Make new appointment' %>
+<%# end %>
+
+<!--<br>
 
 <div id="appointments">
-  <%= render 'appointments' %>
+  <%#= render 'appointments' %>
 </div>
 
-<br>
-
-<%= react_component 'Appointments' %>
+<br>-->
