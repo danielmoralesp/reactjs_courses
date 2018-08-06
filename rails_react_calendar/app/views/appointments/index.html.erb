@@ -1,1 +1,21 @@
+<h1>React Calendar</h1><br>
+
+<h2>Appointments</h2><br>
+
+<h3>Make a new appointment</h3><br>
+
+<%= form_for @appointment do |f| %>
+  <%= f.text_field :title %>
+  <%= f.text_field :appt_time %>
+  <%= f.submit 'Make new appointment' %>
+<% end %>
+
+<br>
+
+<div id="appointments">
+  <%= render 'appointments' %>
+</div>
+
+<br>
+
 <%= react_component 'Appointments' %>
